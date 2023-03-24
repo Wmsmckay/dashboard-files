@@ -61,7 +61,7 @@ def speak(message):
 
 # function to send text message
 def send_text_message(person):
-    speak(f"Calling {person['name']}. Please wait to connect")
+    # speak(f"Calling {person['name']}. Please wait to connect")
 
     phone_number=str(person['number'])
     carrier=str(person['carrier'])
@@ -193,6 +193,33 @@ def check_for_text_message_response():
     mail.logout()
 
 
+def wait_for_second_press(button, timeout=3):
+    start_time = time.monotonic()
+    while time.monotonic() - start_time < timeout:
+        try:
+            event = gamepad.read_one()
+        except BlockingIOError:
+            event = None
+        if event is not None:
+            if event.type == ecodes.EV_KEY:
+                data = categorize(event)
+                if data.keystate == 1 and button_mappings.get(data.scancode) == button:
+                    # print(f'Button {button} pressed again within {timeout} seconds')
+                    return True
+    # print(f'Button {button} not pressed again within {timeout} seconds')
+    return False
+
+
+def handle_button_input(strButton):
+    button = int(strButton)
+    # say button was pressed
+    speak(f"Do you want to call {participants[button-1]['name']}?")
+    # wait for confirmation
+    if wait_for_second_press(strButton):
+        # speak confirmation
+        speak(f"Calling {participants[button-1]['name']}. Please wait to connect.")
+        # Send message
+        send_text_message(participants[1])
 
 
 # Find gamepad device
@@ -208,9 +235,6 @@ data = json.load(f)
 participants = data["people"]
 
 mark_all_emails_as_read()
-
-
-import time
 
 while True:
     
@@ -232,27 +256,41 @@ while True:
                 if data.keystate == 1:  # Button down
                     button = button_mappings.get(data.scancode)
                     print(f'Button {button} pressed')
-                    if button == "1":
-                        send_text_message(participants[0]) 
-                    elif button == '2':
-                        send_text_message(participants[1]) 
-                    elif button == '3':
-                        send_text_message(participants[2])
-                    elif button == '4':
-                        send_text_message(participants[3]) 
-                    elif button == '5':
-                        pass
-                        # send_text_message(participants[4])
-                    elif button == '6':
-                        pass
-                        # send_text_message(participants[5]) 
-                    elif button == '7':
-                        pass
-                        # send_text_message(participants[6])
-                    elif button == '8':
-                        pass
+                    if button == '8':
                         # Try to close chrome
                         try:
                             os.system("killall -9 'chromedriver'")
                         except:
                             print("Can't close Chrome")
+                    else:
+                        handle_button_input(button)
+
+
+                    # if button == "1":
+                    #     if wait_for_second_press(button):
+                    #         send_text_message(participants[0])
+                    # elif button == '2':
+                    #     if wait_for_second_press(button):
+                    #         send_text_message(participants[1])
+                    # elif button == '3':
+                    #     if wait_for_second_press(button):
+                    #         send_text_message(participants[2])
+                    # elif button == '4':
+                    #     if wait_for_second_press(button):
+                    #         send_text_message(participants[3])
+                    # elif button == '5':
+                    #     pass
+                    #     # send_text_message(participants[4])
+                    # elif button == '6':
+                    #     pass
+                    #     # send_text_message(participants[5]) 
+                    # elif button == '7':
+                    #     pass
+                    #     # send_text_message(participants[6])
+                    # elif button == '8':
+                    #     pass
+                    #     # Try to close chrome
+                    #     try:
+                    #         os.system("killall -9 'chromedriver'")
+                    #     except:
+                    #         print("Can't close Chrome")
