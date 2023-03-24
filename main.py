@@ -9,7 +9,12 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from evdev import InputDevice, categorize, ecodes
 from gtts import gTTS
+from dotenv import load_dotenv
 
+# Load in variables
+load_dotenv()
+GOOGLE_EMAIL = os.getenv('GOOGLE_EMAIL')
+GOOGLE_APP_PASSWORD = os.getenv('GOOGLE_APP_PASSWORD')
 
 # Diver location
 driver_location = '/usr/bin/chromedriver'
@@ -26,7 +31,7 @@ button_mappings = {
     ecodes.BTN_TRIGGER: '8',
 }
 
-# dictionary of carrier email domains
+# Dictionary of carrier email domains
 carrier_domains = {
     'verizon': 'vtext.com',
     'att': 'txt.att.net',
@@ -35,8 +40,8 @@ carrier_domains = {
 }
 
 # email configuration
-email_address = 'wms.dashboard01@gmail.com'
-email_password = 'knodnonboophsvoz'
+email_address = GOOGLE_EMAIL
+email_password = GOOGLE_APP_PASSWORD
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587
 imap_server = 'imap.gmail.com'
