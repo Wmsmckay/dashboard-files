@@ -130,56 +130,6 @@ def open_browser(message_url):
         print("error with browser")
 
 
-
-# def check_for_text_message_response():
-#     try:
-#         # login to IMAP server
-#         mail = imaplib.IMAP4_SSL(imap_server, imap_port)
-#         mail.login(email_address, email_password)
-#         mail.select("inbox")
-#         # search for unread messages
-#         result, data = mail.search(None, "UNSEEN")
-#         # loop through messages
-#         for num in data[0].split():
-#             result, data = mail.fetch(num, "(RFC822)")
-#             email_message = email.message_from_bytes(data[0][1])
-
-#             # loop through attachments
-#             for part in email_message.walk():
-#                 # check if attachment is a text file
-#                 if part.get_content_type() == 'text/plain':
-#                     filename = part.get_filename()
-#                     # check if attachment has .txt extension
-#                     # check if message has attachments
-#                     if email_message.get_content_maintype() == 'multipart':
-#                         for part in email_message.walk():
-#                             # check if part is an attachment
-#                             if part.get_content_disposition() is not None:
-#                                 attachment = part.get_payload(decode=True)
-#                                 # check if attachment exists and has a .txt extension
-#                                 if attachment and filename and filename.endswith('.txt'):
-#                                     # print contents of attachment
-#                                     print(f"Contents of {filename}:")
-#                                     print(attachment.decode())
-#                                     # check if attachment contains a facetime url
-#                                     if 'facetime.apple.com' in attachment.decode():
-#                                         # print('its true!')
-#                                         open_browser(attachment.decode())
-#                                     # else:
-#                                     #     for participant in participants:
-#                                     #         if participant['number'] in email_message['From']:
-#                                     #             name = participant['name']
-#                                     #             speak(f"Sorry, {name} is not available right now.")
-#                                     #     print(f"Phone number in email message: {email_message['From']}")
-
-#             # mark message as read
-#             mail.store(num, '+FLAGS', '\\Seen')
-
-#         mail.close()
-#         mail.logout()
-#     except:
-#         print("error checking messages")
-
 def mark_all_emails_as_read():
     # login to IMAP server
     mail = imaplib.IMAP4_SSL(imap_server, imap_port)
@@ -301,39 +251,3 @@ while True:
                             os.system("killall -9 'chromedriver'")
                         except:
                             print("Can't close Chrome")
-
-
-# continuously run program
-# # while True:
-    
-# #     # check for text message response
-# #     check_for_text_message_response()
-# #     # print("im should be here a lot...")
-# #     # Loop indefinitely and print button events
-# #     for event in gamepad.read_loop():
-# #         if event.type == ecodes.EV_KEY:
-# #             data = categorize(event)
-# #             # print(data)
-# #             if data.keystate == 1:  # Button down
-# #                 button = button_mappings.get(data.scancode)
-# #                 print(f'Button {button} pressed')
-# #                 if button == "1":
-# #                     send_text_message(participants[0]) 
-# #                 elif button == '2':
-# #                     send_text_message(participants[1]) 
-# #                 elif button == '3':
-# #                     send_text_message(participants[2])
-# #                 elif button == '4':
-# #                     send_text_message(participants[3]) 
-# #                 elif button == '5':
-# #                     send_text_message(participants[4])
-# #                 elif button == '6':
-# #                     send_text_message(participants[5]) 
-# #                 elif button == '7':
-# #                     send_text_message(participants[6])
-# #                 elif button == '8':
-# #                     # close chrome
-# #                     os.system("killall -9 'chromedriver'")
-        
-#     check_for_text_message_response()
-#     print("I'm the end. Time to go again.")
