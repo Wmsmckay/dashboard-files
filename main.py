@@ -1,4 +1,7 @@
-# from dotenv import load_dotenv
+# Main file pulls in mapping for the users who will be called as well as the controller mappings and image mappings.
+# The program runs on a loop waiting for input from a button. When a button is pressed, the code responds based on what the button and what the screen looks like at the time.
+
+
 from evdev import InputDevice, categorize, ecodes, list_devices
 import button_controls, telegram_interact, text_to_speech, screen_controller
 import time
