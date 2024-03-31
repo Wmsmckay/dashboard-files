@@ -1,2 +1,5 @@
 *.json
 .env
+test_files
+*.mp3
+__pycache__
